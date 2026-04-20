@@ -1,5 +1,7 @@
-markitdown
+# 使用本地 markitdown 包（从 packages 目录安装）
+-e ../../packages/markitdown
 python-docx
 openpyxl
 pypdf
 python-pptx
+
