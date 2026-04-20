@@ -1,7 +1,6 @@
 {
   "buildCommand": "cd markitdown-visualizer && next build",
-  "installCommand": "pip install -r requirements.txt && cd markitdown-visualizer && npm install",
+  "installCommand": "uv pip install -r requirements.txt && cd markitdown-visualizer && npm install",
   "framework": "nextjs",
-  "rootDirectory": "markitdown-visualizer",
   "regions": ["hkg1"]
 }
