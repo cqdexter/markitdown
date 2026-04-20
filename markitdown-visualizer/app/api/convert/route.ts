@@ -8,6 +8,9 @@ import { tmpdir } from "os";
 // 标记为 Node.js runtime，因为使用了 child_process 和 fs
 export const runtime = "nodejs";
 
+// Turbopack 忽略注释，避免 NFT 追踪问题
+const tempDirBase = /*turbopackIgnore: true*/ tmpdir();
+
 const execFileAsync = promisify(execFile);
 
 const MAX_BUFFER = 50 * 1024 * 1024;
@@ -39,7 +42,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    tempDir = await mkdtemp(join(tmpdir(), "markitdown-"));
+    tempDir = await mkdtemp(join(tempDirBase, "markitdown-"));
     const inputPath = join(tempDir, file.name);
 
     const bytes = await file.arrayBuffer();
