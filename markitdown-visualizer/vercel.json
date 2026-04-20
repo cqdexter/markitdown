@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build",
-  "installCommand": "cd .. && pip install -r requirements.txt --break-system-packages && cd markitdown-visualizer && npm install",
+  "installCommand": "cd .. && pip install -r requirements.txt --break-system-packages && cd markitdown-visualizer && npm ci",
   "framework": "nextjs",
   "regions": ["hkg1"]
 }
