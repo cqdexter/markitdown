@@ -1,6 +1,6 @@
 {
   "buildCommand": "NODE_OPTIONS='--no-warnings' next build --webpack",
-  "installCommand": "cd .. && pip install -r requirements.txt --break-system-packages && cd markitdown-visualizer && npm install",
+  "installCommand": "pip install -r api/requirements.txt --target api/.python-packages && npm install",
   "framework": "nextjs",
   "regions": ["hkg1"]
 }

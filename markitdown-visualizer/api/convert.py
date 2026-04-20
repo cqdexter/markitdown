@@ -8,34 +8,14 @@ from urllib.parse import parse_qs
 import cgi
 import io
 
-# Ensure markitdown is installed and available
-PACKAGE_PATH = '/tmp/python-packages'
-if PACKAGE_PATH not in sys.path:
-    sys.path.insert(0, PACKAGE_PATH)
-
-def ensure_markitdown():
-    try:
-        import markitdown
-        return True
-    except ImportError:
-        try:
-            subprocess.check_call([
-                sys.executable, '-m', 'pip', 'install', 
-                'markitdown[all]', '--target', PACKAGE_PATH,
-                '--quiet'
-            ], timeout=60)
-            return True
-        except Exception as e:
-            print(f"Failed to install markitdown: {e}", file=sys.stderr)
-            return False
+# Add local packages to path (installed by vercel.json installCommand)
+LOCAL_PACKAGE_PATH = os.path.join(os.path.dirname(__file__), '.python-packages')
+if LOCAL_PACKAGE_PATH not in sys.path:
+    sys.path.insert(0, LOCAL_PACKAGE_PATH)
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         try:
-            # Ensure markitdown is available
-            if not ensure_markitdown():
-                self._send_json_response(500, {'error': 'Failed to install markitdown'})
-                return
             
             # Parse multipart form data
             content_type = self.headers.get('Content-Type', '')
@@ -80,8 +60,7 @@ class handler(BaseHTTPRequestHandler):
                 
                 # Run markitdown with PYTHONPATH set
                 env = {**os.environ, 'PYTHONIOENCODING': 'utf-8', 'PYTHONUTF8': '1'}
-                if PACKAGE_PATH:
-                    env['PYTHONPATH'] = PACKAGE_PATH + ':' + env.get('PYTHONPATH', '')
+                env['PYTHONPATH'] = LOCAL_PACKAGE_PATH + ':' + env.get('PYTHONPATH', '')
                 
                 result = subprocess.run(
                     [sys.executable, '-m', 'markitdown', input_path],
