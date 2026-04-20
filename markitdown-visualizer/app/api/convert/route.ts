@@ -25,7 +25,8 @@ function getMarkitdownCommand(
   if (process.platform === "win32") {
     return { file: "py", args: ["-3", "-m", "markitdown", inputPath] };
   }
-  return { file: "python3", args: ["-m", "markitdown", inputPath] };
+  // Vercel 环境中使用 python 而不是 python3
+  return { file: "python", args: ["-m", "markitdown", inputPath] };
 }
 
 export async function POST(request: NextRequest) {
