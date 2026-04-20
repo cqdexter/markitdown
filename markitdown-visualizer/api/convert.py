@@ -8,6 +8,14 @@ from urllib.parse import parse_qs
 import cgi
 import io
 
+# Install markitdown if not available
+try:
+    import markitdown
+except ImportError:
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'markitdown[all]', '--target', '/tmp/python-packages'])
+    sys.path.insert(0, '/tmp/python-packages')
+    import markitdown
+
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         try:
