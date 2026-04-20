@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "installCommand": "cd .. && pip install -r requirements.txt --break-system-packages && cd markitdown-visualizer && npm install && npx tsc --noEmit",
+  "buildCommand": "NODE_OPTIONS='--no-warnings' next build --no-turbopack",
+  "installCommand": "cd .. && pip install -r requirements.txt --break-system-packages && cd markitdown-visualizer && npm install",
   "framework": "nextjs",
   "regions": ["hkg1"]
 }
