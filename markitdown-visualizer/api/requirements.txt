@@ -1,1 +1,5 @@
-markitdown[all]
+markitdown
+python-docx
+openpyxl
+pypdf
+python-pptx
