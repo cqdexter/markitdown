@@ -1,0 +1,6 @@
+{
+  "buildCommand": "next build",
+  "installCommand": "pip install -r requirements.txt && npm install",
+  "framework": "nextjs",
+  "regions": ["hkg1"]
+}

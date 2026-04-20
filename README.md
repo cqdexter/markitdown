@@ -4,6 +4,10 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dd/markitdown)
 [![Built by AutoGen Team](https://img.shields.io/badge/Built%20by-AutoGen%20Team-blue)](https://github.com/microsoft/autogen)
 
+> 🎨 **Web Visualizer**: 本项目包含 `markitdown-visualizer/` 目录，是一个基于 Next.js 的 Web 可视化界面，支持通过浏览器使用 MarkItDown 进行文档转换，并集成了 PaddleOCR 进行高级 OCR 识别。
+>
+> 🚀 **一键部署**: 支持直接部署到 Vercel，详见下方 [部署](#部署) 章节。
+
 > [!TIP]
 > MarkItDown now offers an MCP (Model Context Protocol) server for integration with LLM applications like Claude Desktop. See [markitdown-mcp](https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp) for more information.
 
@@ -73,6 +77,34 @@ git clone git@github.com:microsoft/markitdown.git
 cd markitdown
 pip install -e 'packages/markitdown[all]'
 ```
+
+## 部署
+
+### Vercel 一键部署
+
+本项目支持直接部署到 Vercel，包含完整的 Web 可视化界面：
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+**项目结构说明：**
+- `packages/` - MarkItDown Python 核心包
+- `markitdown-visualizer/` - Next.js Web 可视化界面
+- `requirements.txt` - Python 依赖配置
+- `vercel.json` - Vercel 部署配置
+
+**部署步骤：**
+1. Fork 本仓库到你的 GitHub 账号
+2. 在 Vercel 中导入该仓库
+3. Vercel 会自动识别 `vercel.json` 配置并部署
+4. 部署完成后即可通过 Web 界面使用 MarkItDown
+
+**功能特性：**
+- 📄 支持 PDF、Word、Excel、PowerPoint 等多种格式转换
+- 🔍 集成 PaddleOCR 进行高精度 OCR 识别
+- 🤖 支持大模型排版优化
+- 📥 转换结果支持 Markdown 下载
+
+---
 
 ## Usage
 
