@@ -8,17 +8,35 @@ from urllib.parse import parse_qs
 import cgi
 import io
 
-# Install markitdown if not available
-try:
-    import markitdown
-except ImportError:
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'markitdown[all]', '--target', '/tmp/python-packages'])
-    sys.path.insert(0, '/tmp/python-packages')
-    import markitdown
+# Ensure markitdown is installed and available
+PACKAGE_PATH = '/tmp/python-packages'
+if PACKAGE_PATH not in sys.path:
+    sys.path.insert(0, PACKAGE_PATH)
+
+def ensure_markitdown():
+    try:
+        import markitdown
+        return True
+    except ImportError:
+        try:
+            subprocess.check_call([
+                sys.executable, '-m', 'pip', 'install', 
+                'markitdown[all]', '--target', PACKAGE_PATH,
+                '--quiet'
+            ], timeout=60)
+            return True
+        except Exception as e:
+            print(f"Failed to install markitdown: {e}", file=sys.stderr)
+            return False
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         try:
+            # Ensure markitdown is available
+            if not ensure_markitdown():
+                self._send_json_response(500, {'error': 'Failed to install markitdown'})
+                return
+            
             # Parse multipart form data
             content_type = self.headers.get('Content-Type', '')
             if 'multipart/form-data' not in content_type:
@@ -60,12 +78,16 @@ class handler(BaseHTTPRequestHandler):
                 with open(input_path, 'wb') as f:
                     f.write(file_content)
                 
-                # Run markitdown
+                # Run markitdown with PYTHONPATH set
+                env = {**os.environ, 'PYTHONIOENCODING': 'utf-8', 'PYTHONUTF8': '1'}
+                if PACKAGE_PATH:
+                    env['PYTHONPATH'] = PACKAGE_PATH + ':' + env.get('PYTHONPATH', '')
+                
                 result = subprocess.run(
                     [sys.executable, '-m', 'markitdown', input_path],
                     capture_output=True,
                     text=True,
-                    env={**os.environ, 'PYTHONIOENCODING': 'utf-8', 'PYTHONUTF8': '1'}
+                    env=env
                 )
                 
                 if result.returncode != 0:
