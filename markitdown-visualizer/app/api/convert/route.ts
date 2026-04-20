@@ -5,6 +5,9 @@ import { writeFile, mkdtemp, rm } from "fs/promises";
 import { join } from "path";
 import { tmpdir } from "os";
 
+// 标记为 Node.js runtime，因为使用了 child_process 和 fs
+export const runtime = "nodejs";
+
 const execFileAsync = promisify(execFile);
 
 const MAX_BUFFER = 50 * 1024 * 1024;
