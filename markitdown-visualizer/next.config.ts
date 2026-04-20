@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // 禁用 Turbopack，使用 webpack
+  experimental: {
+    turbo: false,
+  },
 };
 
 export default nextConfig;
